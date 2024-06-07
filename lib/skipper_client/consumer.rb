@@ -3,8 +3,8 @@
 require 'uri'
 require 'json'
 require 'http'
-require '../models/models'
-require '../models/requests'
+require 'skipper_client/models/models'
+require 'skipper_client/models/requests'
 
 # cosumer
 class Consumer
