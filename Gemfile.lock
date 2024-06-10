@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    skipper_client (0.1.0)
+    clippy (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -9,6 +9,7 @@ GEM
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     base64 (0.2.0)
+    cli-ui (2.2.3)
     domain_name (0.6.20240107)
     ffi (1.17.0)
     ffi (1.17.0-arm64-darwin)
@@ -27,17 +28,32 @@ GEM
     llhttp-ffi (0.5.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
+    pastel (0.8.0)
+      tty-color (~> 0.5)
     public_suffix (5.0.5)
     rake (13.2.1)
+    tty-color (0.6.0)
+    tty-cursor (0.7.1)
+    tty-prompt (0.23.1)
+      pastel (~> 0.8)
+      tty-reader (~> 0.8)
+    tty-reader (0.9.0)
+      tty-cursor (~> 0.7)
+      tty-screen (~> 0.8)
+      wisper (~> 2.0)
+    tty-screen (0.8.2)
+    wisper (2.0.1)
 
 PLATFORMS
   arm64-darwin-21
   ruby
 
 DEPENDENCIES
+  cli-ui
+  clippy!
   http
   rake (~> 13.0)
-  skipper_client!
+  tty-prompt
 
 BUNDLED WITH
    2.5.11
