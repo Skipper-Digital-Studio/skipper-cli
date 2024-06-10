@@ -29,11 +29,9 @@ class Consumer
   def token_valid?
     valid_uri = URI("#{uri}/auth/validate/#{token}".strip)
     begin
-      response = Models::SkipperResponse.from_response HTTP.get(valid_uri), Models::ValidApiKeyResponse
-      puts response
+      (Models::SkipperResponse.from_response HTTP.get(valid_uri), Models::ValidApiKeyResponse).success
       true
-    rescue StandardError => e
-      puts e
+    rescue StandardError
       false
     end
   end
@@ -74,7 +72,6 @@ class Consumer
     raise 'Error checkout_req is not a JsonRequest' unless checkout_req.is_a? Models::JsonRequest
 
     checkout_uri = URI "#{uri}/api/v1/checkout"
-    p checkout_req.as_json
 
     res = merge_headers(x_api_key, content_type).post(checkout_uri, json: checkout_req.as_json)
     Models::SkipperResponse.from_response res, Models::Checkout, :unit

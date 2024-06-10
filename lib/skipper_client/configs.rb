@@ -17,8 +17,6 @@ class Config
 
   def read_configs
     file = File.read @@configs_path
-    data = JSON.parse file
-    puts data
-    data
+    JSON.parse file
   end
 end
