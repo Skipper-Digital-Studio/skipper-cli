@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "json"
+require 'json'
 
 module Models
   # Skipper api Exception
@@ -11,23 +11,23 @@ module Models
   # json model
   class JsonModel
     def self.from_json(_json_dict)
-      raise "not implemented"
+      raise 'not implemented'
     end
   end
 
   # Basic skipper response
   class SkipperResponse
-    attr_reader :status, :message, :data
+    attr_reader :success, :message, :data
 
     def initialize(json_dict, data)
-      @status = json_dict["status"]
-      @message = json_dict["message"]
+      @success = json_dict['success']
+      @message = json_dict['message']
       @data = data
     end
 
     def self.from_response(response, data_class, type)
       raise SkipperApiError, response.to_s unless response.status.success?
-      raise MissingFromJSON, "missing from_json method" unless data_class < JsonModel
+      raise MissingFromJSON, 'missing from_json method' unless data_class < JsonModel
 
       _parse_from_response parse_json(response.body), data_class, type
     end
@@ -43,20 +43,20 @@ module Models
       when :list
         _from_list_response json_dict, data_class
       else
-        raise SkipperApiError, "invalid type passed"
+        raise SkipperApiError, 'invalid type passed'
       end
     end
 
     def self._from_unit_response(json_dict, data_class)
-      json_data = json_dict["data"]
-      raise SkipperApiError, "data was expected to not be a list" if json_data.is_a? Array
+      json_data = json_dict['data']
+      raise SkipperApiError, 'data was expected to not be a list' if json_data.is_a? Array
 
-      new json_dict, data_class.from_json(json_dict["data"])
+      new json_dict, data_class.from_json(json_dict['data'])
     end
 
     def self._from_list_response(json_dict, data_class)
-      json_data = json_dict["data"]
-      raise SkipperApiError, "data was expected to be a list" unless json_data.is_a? Array
+      json_data = json_dict['data']
+      raise SkipperApiError, 'data was expected to be a list' unless json_data.is_a? Array
 
       new(json_dict, json_data.map { |item| data_class.from_json(item) })
     end
@@ -72,7 +72,7 @@ module Models
     end
 
     def self.from_json(json_dict)
-      new json_dict["key"]
+      new json_dict['key']
     end
   end
 
@@ -89,7 +89,7 @@ module Models
     end
 
     def self.from_json(json_dict)
-      new json_dict["value"], json_dict["name"], json_dict["origin"], json_dict["purpose"]
+      new json_dict['value'], json_dict['name'], json_dict['origin'], json_dict['purpose']
     end
   end
 
@@ -107,13 +107,13 @@ module Models
       @currency = currency
       @amount = amount
       @stripe_data = stripe_data
-      @billing_schema = (amount > 300_000) ? "monthly" : "weekly"
+      @billing_schema = amount > 300_000 ? 'monthly' : 'weekly'
       super()
     end
 
     def self.from_json(json_dict)
-      new json_dict["external_id"], json_dict["product"], json_dict["currency"], json_dict["amount"],
-        json_dict["stripe_data"]
+      new json_dict['external_id'], json_dict['product'], json_dict['currency'], json_dict['amount'],
+          json_dict['stripe_data']
     end
 
     def to_dollar
@@ -131,12 +131,11 @@ module Models
     end
 
     def self.from_json(json_dict)
-      new json_dict["payment_url"]
+      new json_dict['payment_url']
     end
   end
 
   # ExternalID       string  `json:"id"`
-  # Name             string  `json:"name"`
   # PercentOff       float64 `json:"percent_off"`
   # Duration         string  `json:"duration"`
   # DurationInMonths int64   `json:"duration_in_months"`
@@ -148,12 +147,30 @@ module Models
       @name = name
       @duration = duration
       @duration_in_months = duration_in_months
+      @percent_off = percent_off
       super()
     end
 
     def self.from_json(json_dict)
-      new json_dict["id"], json_dict["name"], json_dict["percent_off"], json_dict["duration"],
-        json_dict["duration_in_months"]
+      new json_dict['id'], json_dict['name'], json_dict['percent_off'], json_dict['duration'],
+          json_dict['duration_in_months']
+    end
+  end
+
+  # ID              int        `db:"id"`
+  # CompanyName     string     `db:"company_name" json:"company_name"`
+  # ProjectName     string     `db:"project_name" json:"project_name"`
+  class Customer < JsonModel
+    attr_reader :id, :company_name, :project_name
+
+    def initialize(id, company_name, project_name)
+      @id = id
+      @company_name = company_name
+      @project_name = project_name
+    end
+
+    def self.from_json(json_dict)
+      new json_dict['id'], json_dict['company_name'], json_dict['project_name']
     end
   end
 end

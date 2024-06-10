@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    skipper_client (0.1.0)
+    clippy (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -50,9 +50,9 @@ PLATFORMS
 
 DEPENDENCIES
   cli-ui
+  clippy!
   http
   rake (~> 13.0)
-  skipper_client!
   tty-prompt
 
 BUNDLED WITH
