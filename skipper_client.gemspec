@@ -3,17 +3,17 @@
 require_relative 'lib/skipper_client/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'clippy'
+  spec.name = 'skipper-cli'
   spec.version = SkipperClient::VERSION
   spec.authors = ['wmb1207']
-  spec.email = ['wmb1207@proton.me']
+  spec.email = ['lao@skipper.studio']
 
   spec.summary = 'A command line client to interact with skipper'
   spec.description = 'a command line client to interact with skipper'
   spec.homepage = 'https://skipper.studio'
   spec.required_ruby_version = '>= 3.0.0'
 
-  spec.metadata['allowed_push_host'] = 'https://example.com'
+  spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://gitlab.com/skipperstudio/clippy'
