@@ -1,0 +1,19 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@2.0.1
+jobs:
+  deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: deploy
+          command: './deploy.sh'
+workflows:
+  build:
+    jobs:
+     - deploy:
+          filters:
+            branches:
+              only:
+                - main
