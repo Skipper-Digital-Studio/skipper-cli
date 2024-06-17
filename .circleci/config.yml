@@ -8,7 +8,7 @@ jobs:
     steps:
       - run:
           name: deploy
-          command: './deploy.sh'
+          command: 'ls'
 workflows:
   build:
     jobs:
