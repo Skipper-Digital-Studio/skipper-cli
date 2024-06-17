@@ -6,9 +6,10 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
+      - checkout
       - run:
           name: deploy
-          command: 'ls'
+          command: '/bin/bash deploy.sh'
 workflows:
   build:
     jobs:
